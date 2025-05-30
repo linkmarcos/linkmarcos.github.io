@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}
+Bienvenida
+{% endblock %}
+{% block styles %}
+<style>
+    body {
+        background-color: blue;
+    }
+
+    div.top {
+        background-color: rgba(0, 255, 0, 0.692);
+    }
+</style>
+{% endblock %}
+{% block body %}
+<script>
+    function actualizarHora() {
+         fetch('/Saludos')
+              .then(response => response.json())
+              .then(data => {
+                   document.getElementById('Saludos').textContent = data.DATOS;
+              });
+    };
+    setInterval(actualizarHora, 1000);
+    function enviarDato() {
+        // Obtener el valor del textarea
+        const dato = document.getElementById('nuevoDato').value;
+
+        // Enviar el dato al backend
+        fetch('/actualizar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ dato: dato })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.mensaje) {
+                alert(data.mensaje); // Mostrar mensaje de éxito
+            } else if (data.error) {
+                alert('Error: ' + data.error); // Mostrar mensaje de error
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+</script>
+<h1 id="Saludos">Bienvenido!!! {{dato}}</h1>
+<form action="/Saludos">
+    <textarea name="texto" placeholder="Escribe algo aquí..."></textarea>
+    <button type="submit">Enviar</button>
+</form>
+{% endblock %}

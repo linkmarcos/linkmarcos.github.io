@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>MI Página web con python!!!{% block title %}{% endblock %}</title>
+     <style>
+          h1.hola {
+               color: white;
+               background-color: gray;
+               text-align: center;
+               border-radius: 50px;
+               width: fit-content;
+               margin: 0px auto;
+               margin-top: 20px;
+               padding-left: 10px;
+               padding-right: 10px;
+          }
+
+          body {
+               background-color: green;
+          }
+
+          div.top {
+               padding-top: 2px;
+               padding-bottom: 1px;
+               background-color: rgba(0, 255, 0, 0.507);
+               border-radius: 20px;
+          }
+
+          a.enlace {
+               text-align: center;
+          }
+     </style>
+     {% block styles %}
+     {% endblock %}
+</head>
+
+<body>
+     <div class="top">
+          <h1 class="hola">Hora Actual: <span id="hora-actual"></span></h1>
+          <script>
+               function actualizarHora() {
+                    fetch('/get_time')
+                         .then(response => response.json())
+                         .then(data => {
+                              document.getElementById('hora-actual').textContent = data.time;
+                         });
+               }
+
+               // Actualizar la hora cada segundo
+               setInterval(actualizarHora, 1000);
+          </script>
+          <h1 class="hola">Me encanta jugar al Final Fantasy VII</h1>
+          <a href="/" class="enlace">Principal</a><br><br>
+          <a href="/contacto">Info de contacto</a>
+          <p></p>
+     </div>
+     {% block body %}
+     {% endblock %}
+</body>
+
+</html>
